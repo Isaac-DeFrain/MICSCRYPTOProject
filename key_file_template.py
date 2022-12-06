@@ -1,4 +1,7 @@
 def key_file_template(key_type: str, key_len: int, num: int, pwd: str):
+    '''
+    GPG key file template
+    '''
     return f'''\
 Key-Type: {key_type}
 Key-Length: {key_len}

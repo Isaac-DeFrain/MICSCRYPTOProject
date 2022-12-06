@@ -7,26 +7,22 @@ import json
 import key_ops
 import file_ops
 import pathlib as pl
-
-KEYS_DIR = pl.Path.cwd() / 'keys'
-'''
-Keys directory path
-'''
+import constants as cs
 
 # gpg config paths
 
 GPG_CONF_PATH = pl.Path("~/.gnupg/gpg.conf")
 GPG_AGENT_CONF_PATH = pl.Path("~/.gnupg/gpg-agent.conf")
 
-protected_gpg_keys_path = KEYS_DIR / "protected_gpg_keys.json"
+protected_gpg_keys_path = cs.KEYS_DIR / "protected_gpg_keys.json"
 
 def key_names_and_ids():
-    og_gpg_keys_path = KEYS_DIR / "og_gpg_keys"
+    og_gpg_keys_path = cs.KEYS_DIR / "og_gpg_keys"
     protected_gpg_keys_dict = {}
-    # print og gpg keys to all_keys_path
+    # only protect original gpg keys
     if not og_gpg_keys_path.exists():
         os.system(f'gpg -k > {og_gpg_keys_path}')
-        with og_gpg_keys_path.open("r") as f:
+        with og_gpg_keys_path.open("r", encoding="utf-8") as f:
             lines = f.readlines()
             # get key names
             key_files = filter(lambda s: s.startswith("uid"), lines)
@@ -40,18 +36,25 @@ def key_names_and_ids():
             f.write(json.dumps(protected_gpg_keys_dict, indent=4))
             f.close()
 
+# create gpg keys and sigs dirs
+
+file_ops.mkdir(cs.KEYS_DIR)
+file_ops.mkdir(cs.SIGS_DIR)
+key_names_and_ids()
+
+# original gpg key ids
+
 def protected_gpg_ids() -> "set[str]":
     with protected_gpg_keys_path.open("r", encoding="utf-8") as f:
         dict = json.load(f)
         return dict["ids"]
 
+# original gpg key names
+
 def protected_gpg_names() -> "set[str]":
     with protected_gpg_keys_path.open("r", encoding="utf-8") as f:
         dict = json.load(f)
         return dict["names"]
-
-file_ops.mkdir(KEYS_DIR)
-key_names_and_ids()
 
 # protected gpg keys
 

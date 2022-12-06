@@ -7,8 +7,8 @@ from file_ops import *
 from benchmark import *
 from constants import *
 from pathlib import Path
+from gpg_constants import *
 from os import system, listdir
-from gpg_constants import KEYS_DIR, PROTECTED_GPG_NAMES, PROTECTED_GPG_IDS
 
 def get_pwd(key_file_lines: "list[str]"):
     res = ""
@@ -32,10 +32,9 @@ def stats_file(sig_type: str) -> Path:
 def get_key_ids_and_paths() -> "list[tuple[str, Path]]":
     all_keys_path = KEYS_DIR / "all_keys"
     # print gpg keys to all_keys_path
-    if not KEYS_DIR.exists():
-        system(f"mkdir {KEYS_DIR}")
+    mkdir(KEYS_DIR)
     system(f'gpg -k > {all_keys_path}')
-    with all_keys_path.open("r") as f:
+    with all_keys_path.open("r", encoding="utf8") as f:
         lines = f.readlines()
         # get key ids
         lines_ids = filter(lambda s: s.startswith(" "), lines)
@@ -55,7 +54,6 @@ def sign(fname: str, key_id: str, sig_path: Path, pwd: str):
     system(f"echo {pwd} | gpg --batch --yes -u {key_id} -o {sig_path} --passphrase-fd 0 --sign {DATA_DIR / fname}")
 
 if __name__ == "__main__":
-    mkdir(SIGS_DIR)
     times = {}
     for key_id, key_path in get_key_ids_and_paths():
         key_name = key_path.name
