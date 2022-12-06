@@ -11,7 +11,7 @@ def mkdir(dir: Path):
 
 def mk_path(fpath: Path):
     parents = fpath.parents
-    idx = parents.index(Path.cwd())
+    idx = parents.index(ROOT)
     for i in range(1, idx + 1):
         if not parents[idx - i].exists():
             system(f"mkdir {parents[idx - i]}")

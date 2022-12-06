@@ -1,15 +1,16 @@
-import pathlib as pl
+import pathlib
 
-# TODO key lengths
+ROOT = pathlib.Path(__file__).parent
+
+# TODO key sizes
 
 KEYS = {
+    'EDDSA' : [256],
+    'DSA'   : [768, 896, 1024],
     'RSA'   : [1024, 2048, 3072, 4096],
 #    'ELG'   : [1024, 2048, 3072, 4096],
-    'DSA'   : [768, 896, 1024],
-#### TODO: actual sizes of DSA, and other keys
 #    'ECDH'  : [1024, 2048, 3072, 4096],
 #    'ECDSA' : [1024, 2048, 3072, 4096],
-#    'EDDSA' : [1024, 2048, 3072, 4096],
 }
 
 # test parameters
@@ -26,12 +27,17 @@ Number of keys per type and length
 
 # dir constants
 
-DATA_DIR = pl.Path.cwd() / "data"
+DATA_DIR = ROOT / "data"
 '''
 Data directory path
 '''
 
-SIGS_DIR = pl.Path.cwd() / "sigs"
+KEYS_DIR = ROOT / 'keys'
+'''
+Keys directory path
+'''
+
+SIGS_DIR = ROOT / "sigs"
 '''
 Sigs directory path
 '''
