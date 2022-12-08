@@ -10,7 +10,6 @@ from secrets import token_hex
 from os import system, listdir
 from file_ops import write_file
 from key_file_template import *
-from gpg_constants import KEYS_DIR
 
 # key generation utils
 

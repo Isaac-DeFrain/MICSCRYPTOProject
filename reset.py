@@ -3,7 +3,7 @@ from constants import *
 from pathlib import Path
 from shutil import rmtree
 from gpg_constants import *
-from rainbow import RAINBOW_DIR
+from rainbow import RAINBOW_ROOT
 from gpg_sign_files import get_key_ids_and_paths
 
 def delete_gpg_keys():
@@ -23,7 +23,7 @@ if __name__ == "__main__":
     delete_dir(DATA_DIR)
     delete_dir(KEYS_DIR)
     delete_dir(SIGS_DIR)
-    delete_dir(RAINBOW_DIR)
+    delete_dir(RAINBOW_ROOT)
     # reset gpg config
     system(f'echo "" > {GPG_CONF_PATH}')
     system(f'echo "" > {GPG_AGENT_CONF_PATH}')

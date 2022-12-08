@@ -10,7 +10,7 @@ system(f"cp gpg-agent.conf {GPG_AGENT_CONF_PATH}")
 
 system("python gpg_constants.py")
 system("python gen_random_data.py")
-system("python gpg_keys_batch_gen.py")
+system("python gpg_gen_keys.py")
 system("python gpg_sign_files.py")
 system("python gpg_verify_sig.py")
 system("python rainbow.py")
